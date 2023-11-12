@@ -1,20 +1,38 @@
 from csv import reader
+from random import randrange
 
 
+#1
+print('Task 1')
+count = 0
+with open('books-en.csv', 'r') as booktable:
+    table = reader(booktable, delimiter=';')
+    for row in list(table)[1:]:
+        if len(row[1]) > 30:
+            count += 1
+    print(count)
+
+
+#2
+print('Task 2')
 flag = 0
-output = open('result.txt', 'w')
-search = input('Search for: ')
-with open('civic.csv', 'r', encoding='windows-1251') as csvfile:
-    table = reader(csvfile, delimiter=';')
-    for row in table:
-        lower_case = row[2].lower()
-        index = lower_case.find(search.lower())
-        if index != -1:
-            print(row[2])
-            flag = 1
-            output.write(f'{row[0]}. {row[2]}. Цена {row[8]} рублей.\n')
-
+avtor = input('Введите автора книги: ')
+with open('books-en.csv', 'r') as booktable:
+    table = reader(booktable, delimiter=';')
+    for row in list(table)[1:]:
+        if row[2] == avtor:
+            if row[3] == '2015' or row[3] == '2018':
+                flag = 1
+                print(row[1], row[2], row[3])
     if flag == 0:
-        print('Nothing found.')
+        print('Книг данного автора  не найдено')
 
-output.close()
+
+#3
+bookid = [randrange(0, 9400) for x in range(20)]
+with open('books-en.csv', 'r') as booktable:
+    table = reader(booktable, delimiter=';')
+    row = [x for x in list(table)[1:]]
+with open('randombooks.txt', 'w') as randombooks:
+    for i in range(20):
+        randombooks.write(f'{i+1}. {bookid[i]} {row[bookid[i]][2]} {row[bookid[i]][1]}-{row[bookid[i]][3]}\n')
